@@ -6,11 +6,13 @@ public class Card {
 
     private String suit;
     private String rank;
+    private int pointValue;
     private boolean isFaceUp;
 
     public Card(String suit, String rank) {
         this.suit = suit;
         this.rank = rank;
+        this.pointValue = getPointValue();
         this.isFaceUp = false;
     }
     public String getSuit(){
@@ -61,16 +63,20 @@ public class Card {
                     System.out.print("Do you want 1 or 11: ");
                     int value = scanner.nextInt();
                     return value;
+                default:
+                    try {
+                        return Integer.parseInt(this.rank);
+                    } catch (NumberFormatException e) {
+                        System.out.println(e);
+                    }
             }
             // TODO: fix this
         // determine point value and return it
         // A = 11
         // K, Q, J = 10
         // all numeric cards are equal to their face value
-        } else {
-            return 0;
         }
-        return 0;
+        return this.pointValue;
     }
     public boolean isFaceUp(){
         return isFaceUp;
