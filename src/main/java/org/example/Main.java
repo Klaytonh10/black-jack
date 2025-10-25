@@ -30,21 +30,19 @@ public class Main {
         }
         System.out.println();
 
-        Hand winningHand;
+        Hand winningHand = new Hand("winning hand");
 
         for (Hand hand : hands) {
+            deck.shuffle();
             while (hand.getValue() < 21) {
                 System.out.println(hand.getName() + "'s turn");
-                System.out.println("Hand value: " + hand.getValue());
-                System.out.println("Hit(z) or hold(x)");
+                System.out.println("Hand value: " + hand.getValue() + "\nHit(z) or hold(x)");
                 String input = scanner.nextLine();
                 if (input.equalsIgnoreCase("z")) {
                     hand.deal(deck.deal());
-                    break;
                 } else if (input.equalsIgnoreCase("x")) {
                     hand.setIsHolding(true);
                     handsHolding.add(hand);
-                    hands.remove(hand);
                     break;
                 } else {
                     System.out.println("Improper input, please try again");
@@ -52,15 +50,15 @@ public class Main {
                 System.out.println();
             }
             if (hand.getValue() > 21) {
-                System.out.println(hand.getName() + " BUSTS");
-                hands.remove(hand);
-                break;
+                System.out.println(hand.getName() + " BUSTS with " + hand.getValue() + "\n");
             } else if (hand.getValue() == 21 && hand.getValue() != winningHand.getValue()) {
                 handsHolding.add(hand);
                 winningHand = hand;
             } else if (hand.getValue() == 21 && hand.getValue() == winningHand.getValue()) {
                 handsHolding.add(hand);
                 System.out.println("TIE");
+            } else if(hand.getValue() > 21) {
+                handsHolding.add(hand);
             }
         }
 
@@ -74,6 +72,6 @@ public class Main {
                 break;
             }
         }
-        String winningMessage = winningHand.getName() + " is the winner with " + winningHand.getValue() + " points");
+        String winningMessage = winningHand.getName() + " is the winner with " + winningHand.getValue() + " points";
     }
 }
