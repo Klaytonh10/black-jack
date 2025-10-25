@@ -6,7 +6,6 @@ public class Hand {
 
     private ArrayList<Card> cards;
     private String name;
-    private boolean busts;
     private boolean isHolding;
 
     public Hand(String name) {
@@ -24,17 +23,6 @@ public class Hand {
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setBusts(boolean busts) {
-        this.busts = busts;
-    }
-    public boolean getBusts() {
-        return this.busts;
     }
 
     // A Card is dealt to the Hand and the Hand is responsible

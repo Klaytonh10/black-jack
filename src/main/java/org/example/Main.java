@@ -73,5 +73,6 @@ public class Main {
             }
         }
         String winningMessage = winningHand.getName() + " is the winner with " + winningHand.getValue() + " points";
+        System.out.println(winningMessage);
     }
 }
