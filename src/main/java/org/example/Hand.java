@@ -7,15 +7,27 @@ public class Hand {
     private ArrayList<Card> cards;
     private String name;
     private boolean busts;
-    private boolean wins;
+    private boolean isHolding;
 
     public Hand(String name) {
         this.name = name;
         cards = new ArrayList<>();
     }
 
+    public boolean getIsHolding() {
+        return isHolding;
+    }
+
+    public void setIsHolding(Boolean isHolding) {
+         this.isHolding = isHolding;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setBusts(boolean busts) {

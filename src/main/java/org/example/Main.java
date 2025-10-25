@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Main {
@@ -8,46 +10,70 @@ public class Main {
         Deck deck = new Deck();
         deck.shuffle();
 
-        System.out.print("Enter player 1 name: ");
-        String p1Name = scanner.nextLine();
-        System.out.print("Enter player 2 name: ");
-        String p2Name = scanner.nextLine();
+        ArrayList<Hand> hands = new ArrayList<>();
+        ArrayList<Hand> handsHolding = new ArrayList<>();
+
+        System.out.print("How many players: ");
+        String playerAmount = scanner.nextLine();
+
+        for (int i = 1; i <= Integer.parseInt(playerAmount); i++) {
+            System.out.print("Enter player " + i + " name: ");
+            String name = scanner.nextLine();
+            Hand hand = new Hand(name);
+            hands.add(hand);
+            System.out.println(hand.getName() + " added to the game\n");
+        }
+        for (Hand hand : hands) {
+            System.out.println(hand.getName() + " has 2 cards");
+            hand.deal(deck.deal());
+            hand.deal(deck.deal());
+        }
         System.out.println();
 
-        Hand p1 = new Hand(p1Name);
-        Hand p2 = new Hand(p2Name);
+        Hand winningHand;
 
-        p1.deal(deck.deal());
-        p2.deal(deck.deal());
-        p1.deal(deck.deal());
-        p2.deal(deck.deal());
-
-        if(p1.getValue() > 21) {
-            System.out.println(p1.getName() + " Bustsn\n");
-            p1.setBusts(true);
-        } else {
-            System.out.println(p1.getName() + "'s hand is " + p1.getValue() + "\n");
+        for (Hand hand : hands) {
+            while (hand.getValue() < 21) {
+                System.out.println(hand.getName() + "'s turn");
+                System.out.println("Hand value: " + hand.getValue());
+                System.out.println("Hit(z) or hold(x)");
+                String input = scanner.nextLine();
+                if (input.equalsIgnoreCase("z")) {
+                    hand.deal(deck.deal());
+                    break;
+                } else if (input.equalsIgnoreCase("x")) {
+                    hand.setIsHolding(true);
+                    handsHolding.add(hand);
+                    hands.remove(hand);
+                    break;
+                } else {
+                    System.out.println("Improper input, please try again");
+                }
+                System.out.println();
+            }
+            if (hand.getValue() > 21) {
+                System.out.println(hand.getName() + " BUSTS");
+                hands.remove(hand);
+                break;
+            } else if (hand.getValue() == 21 && hand.getValue() != winningHand.getValue()) {
+                handsHolding.add(hand);
+                winningHand = hand;
+            } else if (hand.getValue() == 21 && hand.getValue() == winningHand.getValue()) {
+                handsHolding.add(hand);
+                System.out.println("TIE");
+            }
         }
 
-        if(p2.getValue() > 21) {
-            System.out.println(p2.getName() + " Busts\n");
-            p2.setBusts(true);
-        } else {
-            System.out.println(p2.getName() + "'s hand is " + p2.getValue() + "\n");
-        }
+        int highestValue = 0;
 
-        if(p1.getBusts() && p2.getBusts()) {
-            System.out.println("NO WINNER");
-        } else if(p1.getBusts() && !p2.getBusts()) {
-            System.out.println(p2.getName().toUpperCase() + " WINS");
-        } else if(!p1.getBusts() && p2.getBusts()) {
-            System.out.println(p1.getName().toUpperCase() + " WINS");
-        } else if(p1.getValue() == p2.getValue()) {
-            System.out.println("TIE");
-        } else if(p1.getValue() > p1.getValue()) {
-            System.out.println(p1.getName().toUpperCase() + " WINS");
-        } else if (p2.getValue() > p1.getValue()) {
-            System.out.println(p2.getName().toUpperCase() + " WINS");
+        for (Hand hand : handsHolding) {
+            if(hand.getValue() > highestValue) {
+                highestValue = hand.getValue();
+                winningHand = hand;
+            } else {
+                break;
+            }
         }
+        String winningMessage = winningHand.getName() + " is the winner with " + winningHand.getValue() + " points");
     }
 }

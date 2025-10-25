@@ -20,7 +20,7 @@ public class Card {
         if(isFaceUp){
             return suit;
         } else {
-            return "#";
+            return null;
         }
     }
     public String getRank(){
@@ -30,7 +30,7 @@ public class Card {
         // i.e. A, K, Q, J, 10, 9 ...
             return rank;
         } else {
-            return "#";
+            return null;
         }
     }
     public int getPointValue(){
@@ -60,9 +60,7 @@ public class Card {
                 case "J", "Q", "K":
                     return 10;
                 case "A":
-                    System.out.print("Do you want 1 or 11: ");
-                    int value = scanner.nextInt();
-                    return value;
+                    return 11;
                 default:
                     try {
                         return Integer.parseInt(this.rank);
