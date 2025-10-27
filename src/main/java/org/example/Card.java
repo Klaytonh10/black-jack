@@ -36,7 +36,6 @@ public class Card {
     public int getPointValue(){
         // only return the value if the card is face up
         int pointValue;
-        Scanner scanner = new Scanner(System.in);
         if(this.isFaceUp){
             switch (this.rank) {
                 case "2":
